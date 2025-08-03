@@ -6,31 +6,31 @@
   <meta name="robots" content="noindex" />
   <link rel="icon" href="/assets/img/salyte.jpg" />
   <title>Doge Proxy</title>
-  <link rel="stylesheet" href="/assets/css/app.css?v=3" />
   <style>
-    /* quick custom styles override */
     body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #fff;
       color: #000;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; 
       height: 100vh;
-      display: flex; 
+      display: flex;
       flex-direction: column;
     }
     header {
-      display: flex;
-      justify-content: flex-end;
+      position: fixed;
+      top: 0; right: 0;
       padding: 1rem 2rem;
       font-weight: 700;
       font-size: 1.25rem;
       user-select: none;
+      z-index: 10;
     }
     main {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-top: 3.5rem; /* space for fixed header */
     }
     form {
       width: 100%;
@@ -50,7 +50,7 @@
     button {
       font-size: 1.25rem;
       padding: 0.75rem 1.5rem;
-      background: #0078d4;
+      background: #333;
       border: none;
       color: white;
       border-radius: 6px;
@@ -58,16 +58,14 @@
       transition: background-color 0.2s ease;
     }
     button:hover {
-      background: #005a9e;
+      background: #555;
     }
   </style>
 </head>
 <body>
-  <header>
-    Doge Proxy
-  </header>
+  <header>Doge Proxy</header>
   <main>
-    <form id="uform" method="GET" action="/proxy" autocomplete="off">
+    <form id="uform" method="POST" autocomplete="off">
       <input
         type="text"
         name="url"
@@ -79,7 +77,16 @@
     </form>
   </main>
 
-  <!-- keep your existing scripts so proxy logic still works -->
+  <script>
+    document.getElementById('uform').addEventListener('submit', e => {
+      e.preventDefault()
+      const url = e.target.url.value.trim()
+      if (!url) return
+      window.location.href = `/proxy?url=${encodeURIComponent(url)}`
+    })
+  </script>
+
+  <!-- keep backend proxy scripts -->
   <script src="/assets/js/main.js?v=3"></script>
   <script src="/assets/js/index.js?v=3"></script>
   <script src="/assets/js/themes.js?v=3"></script>
@@ -87,4 +94,3 @@
   <script src="/assets/js/register.js?v=3" defer></script>
 </body>
 </html>
-
